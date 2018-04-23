@@ -421,7 +421,7 @@ contract MultisigUser {
 }
 
 contract MultisigTests is DSTest {
-    TestableEOSSale  sale;
+    TestablegenEOSSale  sale;
     MultisigUser     user1;
     MultisigUser     user2;
     MultiSigWallet   multisig;
