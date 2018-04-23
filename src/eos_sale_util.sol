@@ -1,11 +1,11 @@
 pragma solidity ^0.4.11;
 
-import "./eos_sale.sol";
+import "./geneos_sale.sol";
 
-contract EOSSaleUtil {
-    EOSSale  public  sale;
+contract genEOSSaleUtil {
+    genEOSSale  public  sale;
 
-    function EOSSaleUtil(EOSSale _sale) {
+    function genEOSSaleUtil(genEOSSale _sale) {
         sale = _sale;
     }
 
