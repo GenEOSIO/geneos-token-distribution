@@ -8,9 +8,9 @@ import "ds-math/math.sol";
 
 import "ds-token/token.sol";
 
-contract EOSSale is DSAuth, DSExec, DSMath {
-    DSToken  public  EOS;                  // The EOS token itself
-    uint128  public  totalSupply;          // Total EOS amount created
+contract genEOSSale is DSAuth, DSExec, DSMath {
+    DSToken  public  genEOS;               // The genEOS token itself
+    uint128  public  totalSupply;          // Total genEOS amount created
     uint128  public  foundersAllocation;   // Amount given to founders
     string   public  foundersKey;          // Public key of founders
 
@@ -32,7 +32,7 @@ contract EOSSale is DSAuth, DSExec, DSMath {
     event LogCollect  (uint amount);
     event LogFreeze   ();
 
-    function EOSSale(
+    function genEOSSale(
         uint     _numberOfDays,
         uint128  _totalSupply,
         uint     _openTime,
@@ -58,17 +58,17 @@ contract EOSSale is DSAuth, DSExec, DSMath {
         assert(openTime < startTime);
     }
 
-    function initialize(DSToken eos) auth {
-        assert(address(EOS) == address(0));
-        assert(eos.owner() == address(this));
-        assert(eos.authority() == DSAuthority(0));
-        assert(eos.totalSupply() == 0);
+    function initialize(DSToken geneos) auth {
+        assert(address(genEOS) == address(0));
+        assert(geneos.owner() == address(this));
+        assert(geneos.authority() == DSAuthority(0));
+        assert(geneos.totalSupply() == 0);
 
-        EOS = eos;
-        EOS.mint(totalSupply);
+        genEOS = geneos;
+        genEOS.mint(totalSupply);
 
         // Address 0xb1 is provably non-transferrable
-        EOS.push(0xb1, foundersAllocation);
+        genEOS.push(0xb1, foundersAllocation);
         keys[0xb1] = foundersKey;
         LogRegister(0xb1, foundersKey);
     }
@@ -138,7 +138,7 @@ contract EOSSale is DSAuth, DSExec, DSMath {
         var reward     = wmul(price, userTotal);
 
         claimed[day][msg.sender] = true;
-        EOS.push(msg.sender, reward);
+        genEOS.push(msg.sender, reward);
 
         LogClaim(day, msg.sender, reward);
     }
@@ -171,7 +171,7 @@ contract EOSSale is DSAuth, DSExec, DSMath {
     // Anyone can freeze the token 1 day after the sale ends
     function freeze() {
         assert(today() > numberOfDays + 1);
-        EOS.stop();
+        genEOS.stop();
         LogFreeze();
     }
 }
